@@ -1,19 +1,19 @@
-package com.example.lab1_cb
+package com.example.inclass_explicit
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
-import com.example.lab1_cb.Order
-import android.content.Intent
+import android.widget.Toast
 
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_layout.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val orderList = arrayListOf<Order>()
+    private val request_code = 5
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,18 +25,12 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
-        saveButton.setOnClickListener  {view ->
-            val timmy: Boolean
-            if(shipbox.checkedRadioButtonId==nRadio.id){
-                timmy=false
-            }
-            else{
-                timmy=true
-            }
-            val jimmy = Order(fbox.text.toString(),lbox.text.toString(),typebox.selectedItem.toString(),numbox.text.toString().toInt(),timmy)
-            orderList.add(jimmy)
-            ans.text="Order added, now there is "+orderList.size+" orders"
+        button.setOnClickListener {view ->
+            val jimmy = jammy.text.toString()
 
+            val i = Intent(this, secondAct::class.java)
+            i.putExtra("theGoods", jimmy)
+            startActivityForResult(i, request_code)
         }
 
 
@@ -56,5 +50,13 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        val stuff  = data?.extras?.getString("returnStuff")
+        Toast.makeText(this, stuff, Toast.LENGTH_LONG).show()
+
+        //https://www.techotopia.com/index.php/Android_Explicit_Intents_%E2%80%93_A_Kotlin_Example
     }
 }
