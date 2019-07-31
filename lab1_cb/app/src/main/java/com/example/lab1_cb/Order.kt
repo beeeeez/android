@@ -1,10 +1,23 @@
 package com.example.lab1_cb
 
-class Order(f:String,l:String,t:String,n:Int,s:Boolean){
-    private val fname=f
-    private val lname=l
-    private val type=t
-    private val number=n
-    private val shipping=s
+import android.os.Parcel
+import android.os.Parcelable
+import kotlinx.android.parcel.Parceler
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
+data class Order(val f: String?, val l: String?, val t: String?, val n: Int, val s: Boolean) : Parcelable {
+    public val fname = f
+
+    public val lname = l
+
+    public val type = t
+
+    public val number = n
+
+    public val shipping = s
+
+    companion object {
+        internal val allOrders = ArrayList<Order>()
+    }
 }

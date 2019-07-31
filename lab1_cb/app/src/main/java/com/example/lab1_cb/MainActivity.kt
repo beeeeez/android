@@ -7,13 +7,17 @@ import android.view.Menu
 import android.view.MenuItem
 import com.example.lab1_cb.Order
 import android.content.Intent
+import android.os.Parcel
+import android.os.Parcelable
+import android.widget.Toast
+import kotlinx.android.parcel.Parcelize
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_layout.*
 
 class MainActivity : AppCompatActivity() {
-
-    private val orderList = arrayListOf<Order>()
+    var CandyOrders = ArrayList<Order>()
+    private var request_code = 5
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,19 +29,55 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
-        saveButton.setOnClickListener  {view ->
+        saveButton.setOnClickListener { view ->
             val timmy: Boolean
-            if(shipbox.checkedRadioButtonId==nRadio.id){
-                timmy=false
+            if (shipbox.checkedRadioButtonId == nRadio.id) {
+                timmy = false
+            } else {
+                timmy = true
             }
-            else{
-                timmy=true
-            }
-            val jimmy = Order(fbox.text.toString(),lbox.text.toString(),typebox.selectedItem.toString(),numbox.text.toString().toInt(),timmy)
-            orderList.add(jimmy)
-            ans.text="Order added, now there is "+orderList.size+" orders"
+
+            val jimmy = Order(
+                fbox.text.toString(),
+                lbox.text.toString(),
+                typebox.selectedItem.toString(),
+                numbox.text.toString().toInt(),
+                timmy
+            )
+
+
+           // orderList.add(jimmy)
+           // ans.text = "Order added, now there is " + orderList.size + " orders"
+
 
         }
+
+        resultsBtn.setOnClickListener {view->
+
+
+            var timmy: Boolean
+            if (shipbox.checkedRadioButtonId == nRadio.id) {
+                timmy = false
+            } else {
+                timmy = true
+            }
+
+            var jimmy = Order(
+                fbox.text.toString(),
+                lbox.text.toString(),
+                typebox.selectedItem.toString(),
+                numbox.text.toString().toInt(),
+                timmy
+            )
+
+            var i = Intent(this, listPage::class.java)
+            i.putExtra("theGoods", jimmy)
+            i.putExtra("theList", CandyOrders)
+            startActivityForResult(i, request_code);
+
+        }
+
+
 
 
     }
@@ -57,4 +97,17 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        val stuff  = data?.extras?.getString("returnStuff")
+        Toast.makeText(this, stuff, Toast.LENGTH_LONG).show()
+        ans.text="there are "+stuff+" orders in the list now";
+
+        //https://www.techotopia.com/index.php/Android_Explicit_Intents_%E2%80%93_A_Kotlin_Example
+    }
 }
+
+
+
+

@@ -1,19 +1,19 @@
-package com.example.inclass_explicit
+package com.example.lab1_cb
 
-import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import com.example.lab1_cb.Order
+import android.content.Intent
 
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.content_layout.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val request_code = 5
+    private val orderList = arrayListOf<Order>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,13 +25,17 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
-        button.setOnClickListener {view ->
-            val jimmy = jammy.text.toString()
-
-            val i = Intent(this, secondAct::class.java)
-            i.putExtra("theGoods", jimmy)
-            startActivity(i)
-
+        saveButton.setOnClickListener  {view ->
+            val timmy: Boolean
+            if(shipbox.checkedRadioButtonId==nRadio.id){
+                timmy=false
+            }
+            else{
+                timmy=true
+            }
+            val jimmy = Order(fbox.text.toString(),lbox.text.toString(),typebox.selectedItem.toString(),numbox.text.toString().toInt(),timmy)
+            orderList.add(jimmy)
+            ans.text="Order added, now there is "+orderList.size+" orders"
 
         }
 
@@ -52,13 +56,5 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        val stuff  = data?.extras?.getString("returnStuff")
-        Toast.makeText(this, stuff, Toast.LENGTH_LONG).show()
-
-        //https://www.techotopia.com/index.php/Android_Explicit_Intents_%E2%80%93_A_Kotlin_Example
     }
 }

@@ -34,7 +34,6 @@ class secondAct : AppCompatActivity() {
     }
     override fun finish(){
         val thestuff= Intent()
-
         val returnMe=editText.text.toString()
         thestuff.putExtra("returnStuff",returnMe)
         setResult(RESULT_OK, thestuff)
