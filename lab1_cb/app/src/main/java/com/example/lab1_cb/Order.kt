@@ -17,7 +17,5 @@ data class Order(val f: String?, val l: String?, val t: String?, val n: Int, val
 
     public val shipping = s
 
-    companion object {
-        internal val allOrders = ArrayList<Order>()
-    }
+
 }

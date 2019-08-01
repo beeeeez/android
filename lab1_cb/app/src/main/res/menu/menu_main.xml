@@ -2,8 +2,12 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.example.lab1_cb.MainActivity">
-    <item android:id="@+id/action_settings"
-          android:title="@string/action_settings"
+    <item android:title="Double Orders" app:showAsAction="always" android:id="@+id/dblOrd"/>
+    <item android:id="@+id/new_item"
+          android:title="New Item"
           android:orderInCategory="100"
-          app:showAsAction="never"/>
+          app:showAsAction="always" android:icon="@drawable/ic_add_box_black_24dp"/>
+    <item android:title="New Item" android:icon="@drawable/ic_add_box_black_24dp" android:id="@+id/new_two"
+          app:showAsAction="withText"/>
+    <item android:title="Get First Order" android:id="@+id/firstOrd" app:showAsAction="never"/>
 </menu>

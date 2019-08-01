@@ -29,13 +29,19 @@ class listPage : AppCompatActivity() {
 
         var booyah = stuff.getParcelable<Order>("theGoods")
         if(booyah!=null){
-            Order.allOrders.add(booyah)
+            allOrders.add(booyah)
         }
-        val temp = ArrayList<String>()
+        val temp = arrayListOf<String>();
+
+
+        for(i in 0..allOrders.size-1){
+            temp.add(allOrders[i].fname.toString() + " - "+ allOrders[i].lname.toString() + " - " + allOrders[i].number.toString())
+        }
 
 
 
-        var adapter= ArrayAdapter<Order>(this, android.R.layout.simple_list_item_1, Order.allOrders)
+
+        var adapter= ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, temp)
 
         listBoy.adapter=adapter
 
@@ -52,10 +58,14 @@ class listPage : AppCompatActivity() {
     override fun finish(){
         var thestuff= Intent()
 
-        var returnMe=Order.allOrders.size.toString()
+        var returnMe=allOrders.size.toString()
         thestuff.putExtra("returnStuff",returnMe)
         setResult(RESULT_OK, thestuff)
         super.finish()
+    }
+
+    companion object {
+        internal val allOrders = ArrayList<Order>()
     }
 
 }

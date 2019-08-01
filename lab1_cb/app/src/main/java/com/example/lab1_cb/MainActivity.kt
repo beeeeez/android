@@ -5,12 +5,8 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
-import com.example.lab1_cb.Order
 import android.content.Intent
-import android.os.Parcel
-import android.os.Parcelable
 import android.widget.Toast
-import kotlinx.android.parcel.Parcelize
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_layout.*
@@ -46,8 +42,8 @@ class MainActivity : AppCompatActivity() {
             )
 
 
-           // orderList.add(jimmy)
-           // ans.text = "Order added, now there is " + orderList.size + " orders"
+                CandyOrders.add(jimmy)
+           ans.text = "Order added, now there is " + CandyOrders.size + " orders"
 
 
         }
@@ -93,7 +89,29 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.new_item -> {fbox.setText(""); lbox.setText(""); numbox.setText(""); shipbox.clearCheck(); typebox.setSelection(0); return true}
+            R.id.dblOrd -> {val tempy = numbox.text.toString().toInt()*2;numbox.setText(tempy.toString()); return true}
+            R.id.firstOrd -> {
+                fbox.setText(CandyOrders[0].fname)
+                lbox.setText(CandyOrders[0].lname)
+                when(CandyOrders[0].type){
+                    "Milk Chocolate" ->{typebox.setSelection(0)} //he wanted get position -- figure that shit out some other time --
+                    "Dark Chocolate" ->{typebox.setSelection(1)}
+                    "White Chocolate" ->{typebox.setSelection(2)}
+                    else -> {typebox.setSelection(0)}
+                }
+                numbox.setText(CandyOrders[0].number.toString())
+                if(CandyOrders[0].shipping==true){
+                    eRadio.isChecked=true
+                    nRadio.isChecked=false
+                }
+                else{
+                    nRadio.isChecked=true
+                    eRadio.isChecked=false
+                }
+
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
