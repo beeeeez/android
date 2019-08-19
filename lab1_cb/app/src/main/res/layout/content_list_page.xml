@@ -8,14 +8,43 @@
             android:layout_height="match_parent" android:layout_marginTop="200px" android:id="@+id/sdsd">
         <Button
                 android:text="Send Count "
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/sendBtn"/>
     </TableRow>
     <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <ListView
-                android:layout_width="456dp"
-                android:layout_height="match_parent" android:id="@+id/listBoy"/>
+                android:layout_width="wrap_content"
+                android:layout_height="500px" android:id="@+id/listBoy"/>
+    </TableRow>
+    <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:orientation="vertical">
+        <TextView
+                android:text="Price to Search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/priceView"/>
+    </TableRow>
+    <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/editText"/>
+    </TableRow>
+    <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <Button
+                android:text="Search for Price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/priceBtn"/>
+        <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:id="@+id/listGirl"/>
     </TableRow>
 </TableLayout>

@@ -10,7 +10,6 @@ import android.widget.Toast
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_layout.*
-import neit.example.SQLListDBExample.DatabaseHandler
 
 class MainActivity : AppCompatActivity() {
     var CandyOrders = ArrayList<Order>()
@@ -20,7 +19,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        val db = DatabaseHandler(this)
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -35,46 +33,21 @@ class MainActivity : AppCompatActivity() {
                 timmy = true
             }
 
-            val db = DatabaseHandler(this)
-            var statPrice=0;
-           when(typebox.selectedItem.toString()){
-               "Milk Chocolate" -> statPrice=5
-               "Dark Chocolate" -> statPrice=10
-               "White Chocolate" -> statPrice=15
-               else -> {
-                   statPrice=0
-               }
-           }
-
-
             val jimmy = Order(
-                0,
                 fbox.text.toString(),
                 lbox.text.toString(),
                 typebox.selectedItem.toString(),
                 numbox.text.toString().toInt(),
-                timmy,
-                (statPrice*numbox.text.toString().toInt()).toFloat()
+                timmy
             )
- var i = Intent(this, listPage::class.java)
-            i.putExtra("theGoods", jimmy)
-            i.putExtra("theList", CandyOrders)
-            startActivityForResult(i, request_code)
 
-            /*
 
                 CandyOrders.add(jimmy)
            ans.text = "Order added, now there is " + CandyOrders.size + " orders"
-            */
-
-
-
 
 
         }
 
-
-/*
         resultsBtn.setOnClickListener {view->
 
 
@@ -92,6 +65,7 @@ class MainActivity : AppCompatActivity() {
                 numbox.text.toString().toInt(),
                 timmy
             )
+
             var i = Intent(this, listPage::class.java)
             i.putExtra("theGoods", jimmy)
             i.putExtra("theList", CandyOrders)
@@ -99,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-*/
+
 
 
     }

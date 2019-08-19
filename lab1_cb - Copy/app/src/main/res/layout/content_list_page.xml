@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:layout_marginTop="200px" android:id="@+id/sdsd">
+        <Button
+                android:text="Send Count "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/sendBtn"/>
+    </TableRow>
+    <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <ListView
+                android:layout_width="456dp"
+                android:layout_height="match_parent" android:id="@+id/listBoy"/>
+    </TableRow>
+</TableLayout>
