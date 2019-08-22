@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         val db = DatabaseHandler(this)
 
+
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
@@ -54,11 +55,10 @@ class MainActivity : AppCompatActivity() {
                 typebox.selectedItem.toString(),
                 numbox.text.toString().toInt(),
                 timmy,
-                (statPrice*numbox.text.toString().toInt()).toFloat()
+                (statPrice*numbox.text.toString().toFloat())
             )
  var i = Intent(this, listPage::class.java)
             i.putExtra("theGoods", jimmy)
-            i.putExtra("theList", CandyOrders)
             startActivityForResult(i, request_code)
 
             /*
@@ -70,6 +70,14 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+        }
+
+        orderBtn.setOnClickListener { view->
+
+            var i = Intent(this, listPage::class.java)
+            i.putExtra("theGood", idBox.text.toString())
+            startActivityForResult(i, request_code)
 
         }
 
@@ -121,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                 fbox.setText(CandyOrders[0].fname)
                 lbox.setText(CandyOrders[0].lname)
                 when(CandyOrders[0].type){
-                    "Milk Chocolate" ->{typebox.setSelection(0)} //he wanted get position -- figure that shit out some other time --
+                    "Milk Chocolate" ->{typebox.setSelection(0)} //he wanted get position --
                     "Dark Chocolate" ->{typebox.setSelection(1)}
                     "White Chocolate" ->{typebox.setSelection(2)}
                     else -> {typebox.setSelection(0)}

@@ -32,28 +32,47 @@ class listPage : AppCompatActivity() {
         val db = DatabaseHandler(this)
         var stuff = intent.extras ?: return
         var booyah = stuff!!.getParcelable<Order>("theGoods")
+        var booyah2 = stuff.getString("theGood")
         if(booyah!=null){
 
 
             db.addOrder(booyah!!)
+            var ordersList=db.allOrders
+            var formatList= ArrayList<String>()
+            for(order in ordersList){
+                val o1 = order.fname
+                val o2= order.lname
+                val o3=order.id
+                val o4=order.price
+                formatList.add(o1 +" " +o2 + " - ID : "+o3 + " - total : "+o4)
+
+            }
+
+
+
+            var adapter= ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, formatList)
+
+            listBoy.adapter=adapter
 
         }
-        var ordersList=db.allOrders
-        var formatList= ArrayList<String>()
-        for(order in ordersList){
-            val o1 = order.fname
-            val o2= order.lname
-            val o3=order.id
-            val o4=order.price
-            formatList.add(o1 +" " +o2 + " - ID : "+o3 + " - total : "+o4)
+        else if(booyah2!=null){
+            var jimmy = db.getOrder(booyah2.toInt())
+            var formatList= ArrayList<String>()
+            formatList.add(jimmy.fname + " " + jimmy.lname + " -ID: "+jimmy.id + " total: "+jimmy.price);
+            var adapter= ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, formatList)
 
-        }
+            listBoy.adapter=adapter
+            }
 
 
 
-        var adapter= ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, formatList)
 
-        listBoy.adapter=adapter
+
+
+
+
+
+
 
         sendBtn.setOnClickListener{
             view->
@@ -62,14 +81,35 @@ class listPage : AppCompatActivity() {
 
         }
 
+        priceBtn.setOnClickListener { view->
+
+
+            var ordersList= db.getOrderbyPrice(editText.text.toString().toFloat())
+
+            var formatList= ArrayList<String>()
+            for(order in ordersList){
+                val o1 = order.fname
+                val o2= order.lname
+                val o3=order.id
+                val o4=order.price
+                formatList.add(o1 +" " +o2 + " - ID : "+o3 + " - total : "+o4)
+
+            }
+
+            var adapter= ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, formatList)
+
+            listGirl.adapter=adapter
+
+        }
+
 
     }
 
     override fun finish(){
         var thestuff= Intent()
-
-        //var returnMe=allOrders.size.toString()
-       // thestuff.putExtra("returnStuff",returnMe)
+        var db = DatabaseHandler(this)
+        var returnMe=db.OrdersCount.toString()
+        thestuff.putExtra("returnStuff",returnMe)
         setResult(RESULT_OK, thestuff)
         super.finish()
     }

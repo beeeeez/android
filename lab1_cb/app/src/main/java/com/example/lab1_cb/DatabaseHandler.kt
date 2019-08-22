@@ -21,8 +21,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
     val allOrders: List<Order>
         get() {
             val OrderList = ArrayList<Order>()
-            val selectQuery = "SELECT  * FROM $TABLE_Orders"
-
+            val selectQuery = "SELECT  * FROM "+TABLE_Orders
             val db = this.writableDatabase
             val cursor = db.rawQuery(selectQuery, null)
             if (cursor.moveToFirst()) {
@@ -37,9 +36,9 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
                     if (Integer.parseInt(cursor.getString(5))==1){
                         var shipping=true;
                     }
-                    var price = Integer.parseInt(cursor.getString(6))
-                    var price2 = price.toFloat()
-                    val Order = Order(id, fname, lname, type, number, shipping, price2)
+                    Log.d("fartman:" , cursor.getFloat(6).toString())
+                    var price = cursor.getDouble(6).toFloat()
+                    val Order = Order(id, fname, lname, type, number, shipping, price)
                         OrderList.add(Order)
                 } while (cursor.moveToNext())
             }
@@ -51,7 +50,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
     // return count
     val OrdersCount: Int
         get() {
-            val countQuery = "SELECT  * FROM $TABLE_Orders"
+            val countQuery = "SELECT  * FROM "+TABLE_Orders
             val db = this.readableDatabase
             val cursor = db.rawQuery(countQuery, null)
         //   cursor.close()
@@ -62,14 +61,14 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
     override fun onCreate(db: SQLiteDatabase) {
         val CREATE_Orders_TABLE = ("CREATE TABLE " + TABLE_Orders + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_FNAME + " TEXT,"  + KEY_LNAME + " TEXT,"
-                + KEY_TYPE + " TEXT," +   KEY_NUMBER + " INTEGER," + KEY_SHIPPING + "INTEGER," + KEY_PRICE + "REAL )");
+                + KEY_TYPE + " TEXT," +   KEY_NUMBER + " INTEGER," + KEY_SHIPPING + " INTEGER," + KEY_PRICE + " FLOAT )")
         db.execSQL(CREATE_Orders_TABLE)
     }
 
     // Upgrading database
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS $TABLE_Orders")
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_Orders)
 
         // Create tables again
         onCreate(db)
@@ -88,19 +87,53 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         values.put(KEY_LNAME, Order.lname) // Order Phone
         values.put(KEY_TYPE, Order.type) // Order Name
         values.put(KEY_NUMBER, Order.number) // Order Phone
-        values.put(KEY_SHIPPING, Order.shipping) // Order Name
-
-        Log.d("fartman:" , "he comes bro")
+        val jimmy: Int;
+        if(Order.shipping==false){
+            jimmy=0
+        }
+        else{
+            jimmy=1
+        }
+        values.put(KEY_SHIPPING, jimmy) // Order Name
+        values.put(KEY_PRICE, Order.price)
+        Log.d("fartman:" , Order.price.toString())
         // Inserting Row
         db.insert(TABLE_Orders, null, values)
         db.close() // Closing database connection
     }
 
-    /*
-    internal fun getOrderbyName(name: String): List<Order>{
+
+    internal fun getOrderbyPrice(price: Float): List<Order>{
+
+     val OrderList = ArrayList<Order>()
+            val selectQuery = "SELECT  * FROM "+TABLE_Orders+" WHERE price >="+price
+            val db = this.writableDatabase
+            val cursor = db.rawQuery(selectQuery, null)
+            if (cursor.moveToFirst()) {
+                do {
+
+                    var id = Integer.parseInt(cursor.getString(0))
+                    var fname = cursor.getString(1)
+                    var lname = cursor.getString(2)
+                    var type = cursor.getString(3)
+                    var number = Integer.parseInt(cursor.getString(4))
+                    var shipping=false
+                    if (Integer.parseInt(cursor.getString(5))==1){
+                        var shipping=true;
+                    }
+                    Log.d("fartman:" , cursor.getFloat(6).toString())
+                    var price = cursor.getDouble(6).toFloat()
+                    val Order = Order(id, fname, lname, type, number, shipping, price)
+                        OrderList.add(Order)
+                } while (cursor.moveToNext())
+            }
+            return OrderList
+        }
+        /*
+
         val db = this.readableDatabase
 
-        val cursor = db.query(TABLE_Orders, arrayOf(KEY_ID, KEY_NAME, KEY_TYPE), "$KEY_NAME=?",
+        val cursor = db.query(TABLE_Orders, arrayOf(KEY_ID, , KEY_TYPE), "$KEY_NAME=?",
             arrayOf(name), null, null, null, null)
         cursor?.moveToFirst()
         val OrderList = ArrayList<Order>()
@@ -143,9 +176,8 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         if (Integer.parseInt(cursor!!.getString(5)) == 1) {
             shipping = true
         }
-        var price = Integer.parseInt(cursor.getString(6))
-        var price2 = price.toFloat()
-        return Order(id, fname, lname, type, number, shipping, price2)
+        var price = (cursor.getString(6).toFloat())
+        return Order(id, fname, lname, type, number, shipping, price)
 
     }
 /*
@@ -176,10 +208,10 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
 
         // All Static variables
         // Database Version
-        private val DATABASE_VERSION = 1
+        private val DATABASE_VERSION = 4
 
         // Database Name
-        private val DATABASE_NAME = "OrdersManager"
+        private val DATABASE_NAME = "OrdersManager4"
 
         // Orders table name
         private val TABLE_Orders = "Orders"
