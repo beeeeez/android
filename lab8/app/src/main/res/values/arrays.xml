@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Milk">
+
+
+
+        <item>Milk Chocolate</item>
+        <item>Dark Chocolate</item>
+        <item>White Chocolate</item>
+
+
+    </string-array>
+</resources>
