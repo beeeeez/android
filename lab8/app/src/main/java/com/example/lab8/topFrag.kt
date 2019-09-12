@@ -79,7 +79,7 @@ class topFrag : Fragment() {
     fun setValues(order:Order){
       jimmy!!.fbox.setText(order.fname)
         jimmy!!.lbox.setText(order.lname)
-        jimmy!!.numbox.setText(order.number)
+        jimmy!!.numbox.setText(order.number.toString())
         jimmy!!.lbox.setText(order.lname)
         when(order.type){
             "Milk Chocolate" ->{jimmy!!.typebox.setSelection(0)} //he wanted get position --

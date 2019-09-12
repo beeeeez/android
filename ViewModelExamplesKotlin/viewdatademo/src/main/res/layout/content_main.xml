@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/BasicAddingMachineLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     >
+
+    <EditText
+        android:id="@+id/Number1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="57dp"
+        android:ems="10">
+
+        <requestFocus />
+    </EditText>
+
+
+    <EditText
+        android:id="@+id/Number2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Number1"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/addOperation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Number2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:width="@dimen/buttonWidth"
+        android:text="@string/AddCaption" />
+
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addOperation"
+        android:text="0"
+        android:textAppearance="?android:attr/textAppearanceLarge"  android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/Number1"
+        android:layout_alignBottom="@+id/Number1"
+        android:layout_alignParentRight="true"
+        android:text="@string/plusSign"
+        android:textAppearance="?android:attr/textAppearanceLarge" android:layout_alignParentTop="true"/>
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/result"
+        android:layout_centerHorizontal="true"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>

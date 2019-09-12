@@ -25,12 +25,11 @@ class MainActivity: OrderFragment.OnListFragmentInteractionListener, topFrag.OnF
 
      }
     override fun onListFragmentInteraction(order: Order){
-        fbox.setText(order.fname)
+        var sendView = supportFragmentManager.findFragmentById(R.id.fragment) as topFrag
+        sendView.setValues(order);
+
+        /*fbox.setText(order.fname)
         lbox.setText(order.lname)
-
-
-
-
 
         when(order.type){
             "Milk Chocolate" ->{typebox.setSelection(0)} //he wanted get position --
@@ -45,7 +44,7 @@ class MainActivity: OrderFragment.OnListFragmentInteractionListener, topFrag.OnF
         else{
             nRadio.isChecked=true
             eRadio.isChecked=false
-        }
+        }*/
 
 
     }

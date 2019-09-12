@@ -7,6 +7,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.content.Intent
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_layout.*
@@ -14,12 +16,15 @@ import kotlinx.android.synthetic.main.content_layout.*
 class MainActivity : AppCompatActivity() {
     var CandyOrders = ArrayList<Order>()
     private var request_code = 5
+    private var viewModel: results? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+           viewModel = ViewModelProviders.of(this).get(results::class.java)
+        ans.text=viewModel!!.result
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
@@ -44,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
                 CandyOrders.add(jimmy)
            ans.text = "Order added, now there is " + CandyOrders.size + " orders"
-
+            viewModel!!.result=ans.text.toString()
 
         }
 
@@ -121,6 +126,7 @@ class MainActivity : AppCompatActivity() {
         val stuff  = data?.extras?.getString("returnStuff")
         Toast.makeText(this, stuff, Toast.LENGTH_LONG).show()
         ans.text="there are "+stuff+" orders in the list now";
+        viewModel!!.result=ans.text.toString()
 
         //https://www.techotopia.com/index.php/Android_Explicit_Intents_%E2%80%93_A_Kotlin_Example
     }

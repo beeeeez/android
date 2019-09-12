@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">LiveDataDemo</string>
+    <string name="action_settings">Settings</string>
+    <string name="AddCaption">Add Two Numbers</string>
+    <string name="plusSign">+</string>
+    <string name="ResultValue">ResultValue</string>
+</resources>
