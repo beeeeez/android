@@ -17,6 +17,8 @@ import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -57,10 +59,31 @@ class matchList : Fragment() {
         var view = inflater.inflate(R.layout.fragment_match_list, container, false)
         val serverURL = "http://172.26.132.241:8081/getteams"
         var text=view.textView;
-        text.text="fluke a duke"
-        LongOperation().execute(serverURL)
-        text.text="fluke a muke"
+     //   text.text="fluke a duke"
 
+       // text.text="fluke a muke"
+
+        val timer = Timer()
+        val t = object : TimerTask() {
+           override fun run() {
+
+
+               LongOperation().execute(serverURL)
+
+            }
+        }
+        timer.scheduleAtFixedRate(t, 1000, 1000)
+        var db = AppDB.getAppDataBase(getActivity()!!.getApplicationContext());
+        val jimmy = db!.TeamDAO().getTeams()
+        db.
+        var hammy = ""
+        for(nm in jimmy){
+            val thing = nm.name
+            val thing2 = nm.city
+            val thing3 = nm.record
+            hammy += thing + " - " + thing2 + " - "+thing3+"\n";
+        }
+        text.text = hammy
 
         return view
     }
@@ -120,13 +143,33 @@ class matchList : Fragment() {
                 var bing: String=""
 
                 val list = ArrayList<String>(arr.length())
-                for (jsonIndex in 0..(arr.length() - 1)) {
-                    bing+="team: "+arr.getJSONObject(jsonIndex).getString("name")+" \n"
+                val db = AppDB.getAppDataBase(getActivity()!!.getApplicationContext());
+                if(db!!.TeamDAO().getTeams().isEmpty()){
+                    for (jsonIndex in 0..(arr.length() - 1)) {
+                        // bing+="team: "+arr.getJSONObject(jsonIndex).getString("name")+" \n"
 
-                   // bing+= "name " +arr.getJSONObject(jsonIndex).getString("name") + " wgt " +arr.getJSONObject(jsonIndex).getString("weight") + " pos " +arr.getJSONObject(jsonIndex).getString("position")+"\n"
-                    // Log.d("JSON", arr.getJSONObject(jsonIndex).getString("title"))
-                    //list.add("name " +arr.getJSONObject(jsonIndex).getString("name") + " wgt " +arr.getJSONObject(jsonIndex).getString("weight") + " pos " +arr.getJSONObject(jsonIndex).getString("position"));
+                        // bing+= "name " +arr.getJSONObject(jsonIndex).getString("name") + " wgt " +arr.getJSONObject(jsonIndex).getString("weight") + " pos " +arr.getJSONObject(jsonIndex).getString("position")+"\n"
+                        // Log.d("JSON", arr.getJSONObject(jsonIndex).getString("title"))
+                        //list.add("name " +arr.getJSONObject(jsonIndex).getString("name") + " wgt " +arr.getJSONObject(jsonIndex).getString("weight") + " pos " +arr.getJSONObject(jsonIndex).getString("position"));
 
+
+                        var jimmy = Team(arr.getJSONObject(jsonIndex).getString("name"),arr.getJSONObject(jsonIndex).getString("city"), arr.getJSONObject(jsonIndex).getString("record") );
+                        db!!.TeamDAO().addTeam(jimmy);
+                    }
+                }
+                else
+                {
+                    var list = db!!.TeamDAO().getTeams()
+                    var count: Int =0
+                    for (jsonIndex in 0..(arr.length() - 1)) {
+                        var jimmy = list.get(count);
+                        jimmy.name =arr.getJSONObject(jsonIndex).getString("name")
+                        jimmy.city =arr.getJSONObject(jsonIndex).getString("name")
+                        jimmy.record =arr.getJSONObject(jsonIndex).getString("name")
+
+                        count++
+                        db!!.TeamDAO().updateTeam(jimmy);
+                    }
                 }
                 Log.d("fuck me ", bing);
 
