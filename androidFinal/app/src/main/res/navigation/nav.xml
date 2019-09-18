@@ -4,5 +4,11 @@
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav" app:startDestination="@id/matchList">
 
     <fragment android:id="@+id/matchList" android:name="com.example.androidfinal.matchList"
-              android:label="fragment_match_list" tools:layout="@layout/fragment_match_list"/>
+              android:label="fragment_match_list" tools:layout="@layout/fragment_match_list">
+        <action android:id="@+id/act" app:destination="@id/makePicks"/>
+    </fragment>
+    <fragment android:id="@+id/makePicks" android:name="com.example.androidfinal.makePicks"
+              android:label="fragment_make_picks" tools:layout="@layout/fragment_make_picks">
+        <action android:id="@+id/act2" app:destination="@id/matchList"/>
+    </fragment>
 </navigation>

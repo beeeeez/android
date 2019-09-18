@@ -1,10 +1,11 @@
 {
-    "teams":[{"name":"Jimmy Jams","id":1}, {"name":"Whimmy Whams","id":2},
-    {"name":"Timmy Tams","id":3},
-    {"name":"Shimmy Shams","id":4},
-    {"name":"Primmy Prams","id":5},
-    {"name":"Chimmy Chams","id":6},
-    {"name":"Fimmy Fams","id":7}]
+    "teams":[{"name":"Jimmy Jams","city":"slammington","record":"10-2"}, 
+    {"name":"Whimmy Whams","city":"HELLO FRIENDS","record":"10-2"},
+    {"name":"Rickity Ralph","city":"JAMMINGTON","record":"10-2"},
+    {"name":"jams a jacobs","city":"changechange","record":"20"},
+    {"name":"NO Prams","city":"whammington","record":"10-2"},
+    {"name":"hubbuh hubbuh","city":"whammington","record":"10-2"},
+    {"name":"HEY BABY YOU SO SEXY","city":"whammington","record":"10-2"}]
 
 
 }

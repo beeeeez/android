@@ -6,10 +6,11 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), matchList.OnFragmentInteractionListener {
+class MainActivity : AppCompatActivity(), matchList.OnFragmentInteractionListener, makePicks.OnFragmentInteractionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity(), matchList.OnFragmentInteractionListene
     }
 
  override fun onFragmentInteraction(uri: Uri){
-
+   //  Toast.makeText(this, uri.toString(), Toast.LENGTH_SHORT).show()
  }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

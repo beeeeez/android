@@ -24,4 +24,10 @@ class Team{
         this.city=city
         this.record=record
     }
+
+    fun displayAll() : String{
+        return name + " - " + city + " - " + record;
+    }
+
+
 }

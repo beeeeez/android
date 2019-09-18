@@ -10,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.annotation.Nullable
+import androidx.lifecycle.LiveData
 import kotlinx.android.synthetic.main.fragment_match_list.*
 import kotlinx.android.synthetic.main.fragment_match_list.view.*
 import org.json.JSONException
@@ -19,6 +21,9 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.util.*
 import kotlin.collections.ArrayList
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -40,7 +45,7 @@ class matchList : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
-
+    private var teamM: teamModel? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -58,35 +63,63 @@ class matchList : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_match_list, container, false)
         val serverURL = "http://172.26.132.241:8081/getteams"
+        teamM =ViewModelProviders.of(this).get(teamModel::class.java)
         var text=view.textView;
-     //   text.text="fluke a duke"
+     //   text.text="fluke a duk
 
        // text.text="fluke a muke"
 
         val timer = Timer()
+        var teamList: String=""
         val t = object : TimerTask() {
            override fun run() {
 
 
                LongOperation().execute(serverURL)
-
+              // var db = AppDB.getAppDataBase(getActivity()!!.getApplicationContext());
+               //
             }
         }
-        timer.scheduleAtFixedRate(t, 1000, 1000)
+
+
+
+        timer.scheduleAtFixedRate(t, 3000, 3000)
         var db = AppDB.getAppDataBase(getActivity()!!.getApplicationContext());
-        val jimmy = db!.TeamDAO().getTeams()
-        db.
-        var hammy = ""
-        for(nm in jimmy){
-            val thing = nm.name
-            val thing2 = nm.city
-            val thing3 = nm.record
-            hammy += thing + " - " + thing2 + " - "+thing3+"\n";
+        var obv = androidx.lifecycle.Observer<List<Team>>(){
+            @Override
+            fun onChanged(@Nullable teams: List<Team>){
+                var hammy = ""
+                Log.d("hey ", "jimbo")
+                for(nm in teams){
+                    val thing = nm.name
+                    val thing2 = nm.city
+                    val thing3 = nm.record
+                  //  hammy += thing + " - " + thing2 + " - "+thing3+"\n";
+                 //   teamList+=hammy;
+                }
+              //  text.text = hammy
+            }
         }
-        text.text = hammy
+        LongOperation().execute(serverURL)
+            var hammy = ""
+            var teams = db!!.TeamDAO().getTeams()
+            for(nm in teams){
+                val thing = nm.name
+                val thing2 = nm.city
+                val thing3 = nm.record
+                hammy += thing + " - " + thing2 + " - "+thing3+"\n";
+            }
+            text.text = hammy
+
+
+        db!!.TeamDAO().watchTeams().observe(this, obv)
+        var moveFrags = view.moveFragments
+        moveFrags.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.act))
 
         return view
     }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
@@ -164,14 +197,17 @@ class matchList : Fragment() {
                     for (jsonIndex in 0..(arr.length() - 1)) {
                         var jimmy = list.get(count);
                         jimmy.name =arr.getJSONObject(jsonIndex).getString("name")
-                        jimmy.city =arr.getJSONObject(jsonIndex).getString("name")
-                        jimmy.record =arr.getJSONObject(jsonIndex).getString("name")
+                        jimmy.city =arr.getJSONObject(jsonIndex).getString("city")
+                        jimmy.record =arr.getJSONObject(jsonIndex).getString("record")
 
                         count++
+                        Log.d("updating", jimmy.name);
                         db!!.TeamDAO().updateTeam(jimmy);
+
+
                     }
                 }
-                Log.d("fuck me ", bing);
+               // Log.d("fuck me ", bing);
 
               //  val listadapter = ArrayAdapter(this@MainActivity, android.R.layout.simple_list_item_1, list )
              //   listy.adapter = listadapter
