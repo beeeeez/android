@@ -24,6 +24,8 @@ import kotlin.collections.ArrayList
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import android.app.Activity
+import java.util.logging.Handler
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -45,7 +47,9 @@ class matchList : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
-    private var teamM: teamModel? = null
+    var theView: View? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -63,7 +67,7 @@ class matchList : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_match_list, container, false)
         val serverURL = "http://172.26.132.241:8081/getteams"
-        teamM =ViewModelProviders.of(this).get(teamModel::class.java)
+        theView =view
         var text=view.textView;
      //   text.text="fluke a duk
 
@@ -72,18 +76,22 @@ class matchList : Fragment() {
         val timer = Timer()
         var teamList: String=""
         val t = object : TimerTask() {
+
+
            override fun run() {
-
-
                LongOperation().execute(serverURL)
-              // var db = AppDB.getAppDataBase(getActivity()!!.getApplicationContext());
+               activity!!.runOnUiThread { reWriteText() }
+            //   reWriteText()
                //
             }
+
         }
-
-
-
         timer.scheduleAtFixedRate(t, 3000, 3000)
+
+
+
+
+
         var db = AppDB.getAppDataBase(getActivity()!!.getApplicationContext());
         var obv = androidx.lifecycle.Observer<List<Team>>(){
             @Override
@@ -118,6 +126,21 @@ class matchList : Fragment() {
 
         return view
     }
+
+    fun reWriteText(){
+        val db = AppDB.getAppDataBase(getActivity()!!.getApplicationContext());
+        var hammy = ""
+        var teams = db!!.TeamDAO().getTeams()
+        for(nm in teams){
+            val thing = nm.name
+            val thing2 = nm.city
+            val thing3 = nm.record
+            hammy += thing + " - " + thing2 + " - "+thing3+"\n";
+        }
+        theView!!.textView.text= hammy
+
+    }
+
 
 
 
